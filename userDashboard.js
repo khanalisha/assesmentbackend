@@ -9,6 +9,7 @@ const { blackList } = require("./blacklist/blackList");
 
 userRouter.post("/addUser", async (req, res) => {
   const { email, password, Confirm_Password } = req.body;
+  console.log(req.body);
   try {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
@@ -23,12 +24,14 @@ userRouter.post("/addUser", async (req, res) => {
           password: hash,
           Confirm_Password: hash,
         });
+        console.log(user);
+
         await user.save();
         res.send({ msg: "Welcome Home", user });
       });
     }
   } catch (error) {
-    res.send({ error: "error" });
+    res.send({ error: error });
   }
 });
 
